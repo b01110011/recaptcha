@@ -5,10 +5,9 @@ use Bitrix\Main\HttpApplication;
 use Bitrix\Main\Config\Option;
 use Bitrix\Main\Loader;
 
-require_once __DIR__ .'/helper.php';
+use B01110011ReCaptcha\Module as M;
 
-$module_id = bx_module_id();
-$LOC = bx_loc_prefix();
+$module_id = M::id();
 
 Loc::loadMessages($_SERVER['DOCUMENT_ROOT'] . BX_ROOT . '/modules/main/options.php');
 Loc::loadMessages(__FILE__);
@@ -28,36 +27,36 @@ $aTabs =
 [
     [
         'DIV' => 'settings',
-        'TAB' => Loc::getMessage($LOC .'TAB_SETTINGS'),
+        'TAB' => Loc::getMessage(M::locPrefix() .'TAB_SETTINGS'),
         'OPTIONS' =>
         [
             [
                 'site_key',
-                Loc::getMessage($LOC .'FIELD_SITE_KEY'),
+                Loc::getMessage(M::locPrefix() .'FIELD_SITE_KEY'),
                 '',
                 ['text', 50]
             ],
             [
                 'secret_key',
-                Loc::getMessage($LOC .'FIELD_SECRET_KEY'),
+                Loc::getMessage(M::locPrefix() .'FIELD_SECRET_KEY'),
                 '',
                 ['text', 50]
             ],
             [
                 'permissible_score',
-                Loc::getMessage($LOC .'FIELD_PERMISSIBLE_SCORE'),
+                Loc::getMessage(M::locPrefix() .'FIELD_PERMISSIBLE_SCORE'),
                 '0.5',
                 ['text', 5]
             ],
             [
                 'hide_badge',
-                Loc::getMessage($LOC .'FIELD_HIDE_BADGE'),
+                Loc::getMessage(M::locPrefix() .'FIELD_HIDE_BADGE'),
                 'Y',
                 ['checkbox']
             ],
             [
                 'error_message',
-                Loc::getMessage($LOC .'FIELD_ERROR_MESSAGE'),
+                Loc::getMessage(M::locPrefix() .'FIELD_ERROR_MESSAGE'),
                 '',
                 ['text', 50]
             ]
@@ -72,16 +71,16 @@ $aTabs =
 $aTabs[] =
 [
     'DIV' => 'registration',
-    'TAB' => Loc::getMessage($LOC .'TAB_REGISTRATION'),
+    'TAB' => Loc::getMessage(M::locPrefix() .'TAB_REGISTRATION'),
     'OPTIONS' =>
     [
         [
             'registrationEnable',
-            Loc::getMessage($LOC .'FIELD_REGISTRATION'),
+            Loc::getMessage(M::locPrefix() .'FIELD_REGISTRATION'),
             'N',
             ['checkbox']
         ],
-        ['note' => Loc::getMessage($LOC .'NOTE_REGISTRATION')]
+        ['note' => Loc::getMessage(M::locPrefix() .'NOTE_REGISTRATION')]
     ]
 ];
 
@@ -104,12 +103,12 @@ if (Loader::includeModule('form'))
         $aTabs[] =
         [
             'DIV' => 'webform',
-            'TAB' => Loc::getMessage($LOC .'TAB_WEBFORM'),
+            'TAB' => Loc::getMessage(M::locPrefix() .'TAB_WEBFORM'),
             'OPTIONS' =>
             [
                 [
                     'webform_ids',
-                    Loc::getMessage($LOC .'FIELD_WEBFORM_IDS'),
+                    Loc::getMessage(M::locPrefix() .'FIELD_WEBFORM_IDS'),
                     '',
                     ['multiselectbox', $arWebForm]
                 ]
@@ -137,12 +136,12 @@ if (Loader::includeModule('iblock'))
         $aTabs[] =
         [
             'DIV' => 'iblock',
-            'TAB' => Loc::getMessage($LOC .'TAB_IBLOCK'),
+            'TAB' => Loc::getMessage(M::locPrefix() .'TAB_IBLOCK'),
             'OPTIONS' =>
             [
                 [
                     'iblock_ids',
-                    Loc::getMessage($LOC .'FIELD_IBLOCK_IDS'),
+                    Loc::getMessage(M::locPrefix() .'FIELD_IBLOCK_IDS'),
                     '',
                     ['multiselectbox', $arBlocks]
                 ]
@@ -174,7 +173,7 @@ $tabControl = new CAdminTabControl('tabControl', $aTabs);
 <? $tabControl->Begin(); ?>
 <form method="POST"
     action="<?=$APPLICATION->GetCurPage()?>?mid=<?=htmlspecialcharsbx($request['mid'])?>&lang=<?=$request['lang']?>"
-    name="<?=bx_module_id_prefix() . '_settings'?>">
+    name="<?=M::idPrefix() . '_settings'?>">
 
     <?
     foreach ($aTabs as $aTab)

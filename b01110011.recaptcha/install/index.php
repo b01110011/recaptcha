@@ -8,9 +8,11 @@ use Bitrix\Main\IO\File;
 use Bitrix\Main\EventManager;
 use Bitrix\Main\Config\Option;
 
-Loc::loadMessages(__FILE__);
+require_once __DIR__ .'/../lib/autoload.php';
 
-require_once __DIR__ .'/../helper.php';
+use B01110011ReCaptcha\Module as M;
+
+Loc::loadMessages(__FILE__);
 
 class b01110011_recaptcha extends CModule
 {
@@ -22,24 +24,18 @@ class b01110011_recaptcha extends CModule
 	var $PARTNER_NAME;
 	var $PARTNER_URI;
 
-    protected $LOC_PREFIX;
-    protected $FILE_PREFIX;
-
     public function __construct()
     {
         $arModuleVersion = [];
         include __DIR__ .'/version.php';
-
-        $this->LOC_PREFIX = bx_loc_prefix();
-        $this->FILE_PREFIX = bx_file_prefix();
         
         $this->MODULE_VERSION = $arModuleVersion['VERSION'];
         $this->MODULE_VERSION_DATE = $arModuleVersion['VERSION_DATE'];
-        $this->MODULE_NAME = Loc::getMessage($this->LOC_PREFIX .'MODULE_NAME');
-        $this->MODULE_DESCRIPTION = Loc::getMessage($this->LOC_PREFIX .'MODULE_DESC');
+        $this->MODULE_NAME = Loc::getMessage(M::locPrefix() .'MODULE_NAME');
+        $this->MODULE_DESCRIPTION = Loc::getMessage(M::locPrefix() .'MODULE_DESC');
 
-        $this->PARTNER_NAME = Loc::getMessage($this->LOC_PREFIX .'PARTNER_NAME');
-        $this->PARTNER_URI = Loc::getMessage($this->LOC_PREFIX .'PARTNER_URI');
+        $this->PARTNER_NAME = Loc::getMessage(M::locPrefix() .'PARTNER_NAME');
+        $this->PARTNER_URI = Loc::getMessage(M::locPrefix() .'PARTNER_URI');
     }
 
     public function DoInstall()
@@ -56,10 +52,10 @@ class b01110011_recaptcha extends CModule
         }
         else
         {
-            $APPLICATION->ThrowException(Loc::getMessage($this->LOC_PREFIX .'INSTALL_ERROR_VERSION'));
+            $APPLICATION->ThrowException(Loc::getMessage(M::locPrefix() .'INSTALL_ERROR_VERSION'));
         }
 
-        $APPLICATION->IncludeAdminFile(Loc::getMessage($this->LOC_PREFIX .'INSTALL_TITLE'), $this->GetPath() .'/install/step.php');
+        $APPLICATION->IncludeAdminFile(Loc::getMessage(M::locPrefix() .'INSTALL_TITLE'), $this->GetPath() .'/install/step.php');
     }
 
     public function DoUninstall()
@@ -73,7 +69,7 @@ class b01110011_recaptcha extends CModule
             case null:
             case 1:
 
-                $APPLICATION->IncludeAdminFile(Loc::getMessage($this->LOC_PREFIX .'UNINSTALL_TITLE'), $this->GetPath() .'/install/unstep.php');
+                $APPLICATION->IncludeAdminFile(Loc::getMessage(M::locPrefix() .'UNINSTALL_TITLE'), $this->GetPath() .'/install/unstep.php');
             
             break;
             case 2:
@@ -86,7 +82,7 @@ class b01110011_recaptcha extends CModule
         
                 ModuleManager::unRegisterModule($this->MODULE_ID);
 
-                $APPLICATION->IncludeAdminFile(Loc::getMessage($this->LOC_PREFIX .'UNINSTALL_TITLE'), $this->GetPath() .'/install/unstep2.php');
+                $APPLICATION->IncludeAdminFile(Loc::getMessage(M::locPrefix() .'UNINSTALL_TITLE'), $this->GetPath() .'/install/unstep2.php');
             
             break;
         }
@@ -139,10 +135,10 @@ class b01110011_recaptcha extends CModule
         $EventManager = EventManager::getInstance();
 
         // проверка на спам
-        $EventManager->registerEventHandler('main', 'OnBeforeProlog', $this->MODULE_ID, 'GoogleCaptcha', 'initCheckSpam');
+        $EventManager->registerEventHandler('main', 'OnBeforeProlog', $this->MODULE_ID, 'B01110011ReCaptcha\BitrixCaptcha', 'initCheckSpam');
 
         // инициализация js
-        $EventManager->registerEventHandler('main', 'OnProlog', $this->MODULE_ID, 'GoogleCaptcha', 'initJS');
+        $EventManager->registerEventHandler('main', 'OnProlog', $this->MODULE_ID, 'B01110011ReCaptcha\BitrixCaptcha', 'initJS');
     }
     
     /**
@@ -153,10 +149,10 @@ class b01110011_recaptcha extends CModule
         $EventManager = EventManager::getInstance();
 
         // проверка на спам
-        $EventManager->unRegisterEventHandler('main', 'OnBeforeProlog', $this->MODULE_ID, 'GoogleCaptcha', 'initCheckSpam');
+        $EventManager->unRegisterEventHandler('main', 'OnBeforeProlog', $this->MODULE_ID, 'B01110011ReCaptcha\BitrixCaptcha', 'initCheckSpam');
 
         // инициализация js
-        $EventManager->unRegisterEventHandler('main', 'OnProlog', $this->MODULE_ID, 'GoogleCaptcha', 'initJS');
+        $EventManager->unRegisterEventHandler('main', 'OnProlog', $this->MODULE_ID, 'B01110011ReCaptcha\BitrixCaptcha', 'initJS');
     }
 
     /**
@@ -193,7 +189,7 @@ class b01110011_recaptcha extends CModule
                 {
                     if (in_array($item, $exclusionFiles)) continue;
 
-                    copy($path .'/'. $item, $dest = Application::getDocumentRoot() .'/bitrix/admin/'. $this->FILE_PREFIX . $item);
+                    copy($path .'/'. $item, $dest = Application::getDocumentRoot() .'/bitrix/admin/'. M::filePrefix() . $item);
 
                     // для замены айди модуля в файлах install/admin
                     if (file_exists($dest))
@@ -256,7 +252,7 @@ class b01110011_recaptcha extends CModule
                 {
                     if (in_array($item, $exclusionFiles)) continue;
 
-                    File::deleteFile(Application::getDocumentRoot() .'/bitrix/admin/'. $this->FILE_PREFIX . $item);
+                    File::deleteFile(Application::getDocumentRoot() .'/bitrix/admin/'. M::filePrefix() . $item);
                 }
 
                 closedir($dir);

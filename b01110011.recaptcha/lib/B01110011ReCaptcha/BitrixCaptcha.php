@@ -1,16 +1,18 @@
 <?php
 
+namespace B01110011ReCaptcha;
+
 use Bitrix\Main\Page\Asset;
 use Bitrix\Main\Config\Option;
 use Bitrix\Main\EventManager;
 use Bitrix\Main\Loader;
 use Bitrix\Main\Localization\Loc;
 
-require_once __DIR__ .'/../helper.php';
+use B01110011ReCaptcha\Module as M;
 
 Loc::loadMessages(__FILE__);
 
-class GoogleCaptcha
+class BitrixCaptcha
 {
     /**
      * Подключаем JS скрипты для reCaptcha v3
@@ -18,8 +20,8 @@ class GoogleCaptcha
     public function initJS()
     {
         $Asset = Asset::getInstance();
-        $siteKey = Option::get(bx_module_id(), 'site_key');
-        $hideBadge = Option::get(bx_module_id(), 'hide_badge', 'Y');
+        $siteKey = Option::get(M::id(), 'site_key');
+        $hideBadge = Option::get(M::id(), 'hide_badge', 'Y');
 
         $Asset->addString('<script src="https://www.google.com/recaptcha/api.js?render='. $siteKey .'"></script>');
         $Asset->addString('<script>window.recaptcha = { siteKey: "'. $siteKey .'", tokenLifeTime: 100 };</script>'); // время жизни токена в секундах (2 минуты максимальное время жизни токена)
@@ -36,9 +38,9 @@ class GoogleCaptcha
     {
         $EventManager = EventManager::getInstance();
 
-        $EventManager->addEventHandler('form', 'onBeforeResultAdd', ['GoogleCaptcha', 'checkWebForm']);
-        $EventManager->addEventHandler('main', 'OnBeforeUserRegister', ['GoogleCaptcha', 'checkRegistration']);
-        $EventManager->addEventHandler('iblock', 'OnBeforeIBlockElementAdd', ['GoogleCaptcha', 'checkIBlock']);
+        $EventManager->addEventHandler('form', 'onBeforeResultAdd', ['B01110011ReCaptcha\BitrixCaptcha', 'checkWebForm']);
+        $EventManager->addEventHandler('main', 'OnBeforeUserRegister', ['B01110011ReCaptcha\BitrixCaptcha', 'checkRegistration']);
+        $EventManager->addEventHandler('iblock', 'OnBeforeIBlockElementAdd', ['B01110011ReCaptcha\BitrixCaptcha', 'checkIBlock']);
     }
 
     /**
@@ -46,7 +48,7 @@ class GoogleCaptcha
      */
     public function checkWebForm($WEB_FORM_ID, &$arFields, &$arValues)
     {
-        $webformIDs = Option::get(bx_module_id(), 'webform_ids');
+        $webformIDs = Option::get(M::id(), 'webform_ids');
         if (empty($webformIDs)) return true;
 
         // если не из списка проверяемых форм пришли данные, то не проверяем капчу
@@ -61,7 +63,7 @@ class GoogleCaptcha
      */
     public function checkRegistration(&$arArgs)
     {
-        $registrationEnable = Option::get(bx_module_id(), 'registrationEnable', 'N');
+        $registrationEnable = Option::get(M::id(), 'registrationEnable', 'N');
         if ($registrationEnable == 'N') return true;
 
         return self::checkSpam();
@@ -72,7 +74,7 @@ class GoogleCaptcha
      */
     public function checkIBlock(&$arParams)
     {
-        $iblockIDs = Option::get(bx_module_id(), 'iblock_ids');
+        $iblockIDs = Option::get(M::id(), 'iblock_ids');
         if (empty($iblockIDs)) return true;
 
         // если не из списка проверяемых инфоблоков пришли данные, то не проверяем капчу
@@ -97,13 +99,13 @@ class GoogleCaptcha
 
         if (isset($recaptcha_token) && !empty($recaptcha_token))
         {
-            $secretKey = Option::get(bx_module_id(), 'secret_key');
-            $permissibleScore = (float) Option::get(bx_module_id(), 'permissible_score', 0.5);
+            $secretKey = Option::get(M::id(), 'secret_key');
+            $permissibleScore = (float) Option::get(M::id(), 'permissible_score', 0.5);
 
-            $recaptcha = new \ReCaptcha\ReCaptcha($secretKey, $permissibleScore);
+            $recaptcha = new ReCaptcha($secretKey, $permissibleScore);
             $response = $recaptcha->verify($recaptcha_token);
 
-            if (!$response->isSuccess()) $isError = true;
+            if (!$response['isSuccess']) $isError = true;
         }
         else
         {
@@ -112,8 +114,8 @@ class GoogleCaptcha
 
         if ($isError)
         {
-            $errorMessage = Option::get(bx_module_id(), 'error_message');
-            if (empty($errorMessage)) $errorMessage = Loc::getMessage(bx_loc_prefix() .'CAPTCHA_ERROR_MESSAGE');
+            $errorMessage = Option::get(M::id(), 'error_message');
+            if (empty($errorMessage)) $errorMessage = Loc::getMessage(M::locPrefix() .'CAPTCHA_ERROR_MESSAGE');
 
             $APPLICATION->ThrowException($errorMessage);
             return false;
