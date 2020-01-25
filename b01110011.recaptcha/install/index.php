@@ -16,7 +16,7 @@ Loc::loadMessages(__FILE__);
 
 class b01110011_recaptcha extends CModule
 {
-	var $MODULE_ID = 'b01110011.recaptcha';
+	var $MODULE_ID = 'b01110011.recaptcha'; // без этого не проходит валидация при загрузке архива когда добавляем в маркетплейс
 	var $MODULE_VERSION;
 	var $MODULE_VERSION_DATE;
 	var $MODULE_NAME;
@@ -34,8 +34,8 @@ class b01110011_recaptcha extends CModule
         $this->MODULE_NAME = Loc::getMessage(M::locPrefix() .'MODULE_NAME');
         $this->MODULE_DESCRIPTION = Loc::getMessage(M::locPrefix() .'MODULE_DESC');
 
-        $this->PARTNER_NAME = Loc::getMessage(M::locPrefix() .'PARTNER_NAME');
-        $this->PARTNER_URI = Loc::getMessage(M::locPrefix() .'PARTNER_URI');
+        $this->PARTNER_NAME = Loc::getMessage('B01110011_RECAPTCHA_PARTNER_NAME'); // без этого не проходит валидация при загрузке архива когда добавляем в маркетплейс
+        $this->PARTNER_URI = Loc::getMessage('B01110011_RECAPTCHA_PARTNER_URI'); // без этого не проходит валидация при загрузке архива когда добавляем в маркетплейс
     }
 
     public function DoInstall()
