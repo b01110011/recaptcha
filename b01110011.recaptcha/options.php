@@ -13,7 +13,7 @@ $LOC = bx_loc_prefix();
 Loc::loadMessages($_SERVER['DOCUMENT_ROOT'] . BX_ROOT . '/modules/main/options.php');
 Loc::loadMessages(__FILE__);
 
-// ïðîâåðêà ïðàâ íà íàñòðîéêè ìîäóëÿ
+// Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ° Ð¿Ñ€Ð°Ð² Ð½Ð° Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ Ð¼Ð¾Ð´ÑƒÐ»Ñ
 if ($APPLICATION->GetGroupRight($module_id) < 'S')
 {
     $APPLICATION->AuthForm(Loc::getMessage('ACCESS_DENIED'));
@@ -23,7 +23,7 @@ Loader::includeModule($module_id);
 
 $request = HttpApplication::getInstance()->getContext()->getRequest();
 
-// ôîðìèðóåì âêëàäêè è ïîëÿ ôîðì
+// Ñ„Ð¾Ñ€Ð¼Ð¸Ñ€ÑƒÐµÐ¼ Ð²ÐºÐ»Ð°Ð´ÐºÐ¸ Ð¸ Ð¿Ð¾Ð»Ñ Ñ„Ð¾Ñ€Ð¼
 $aTabs =
 [
     [
@@ -67,7 +67,7 @@ $aTabs =
 
 
 /**
- * Ðåãèñòðàöèÿ ïîëüçîâàòåëåé
+ * Ð ÐµÐ³Ð¸ÑÑ‚Ñ€Ð°Ñ†Ð¸Ñ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÐµÐ¹
  */
 $aTabs[] =
 [
@@ -87,11 +87,11 @@ $aTabs[] =
 
 
 /**
- * Ïîäêëþ÷àåì ìîäóëü "Âåá Ôîðìû"
+ * ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡Ð°ÐµÐ¼ Ð¼Ð¾Ð´ÑƒÐ»ÑŒ "Ð’ÐµÐ± Ð¤Ð¾Ñ€Ð¼Ñ‹"
  */
 if (Loader::includeModule('form'))
 {
-    // ïîëó÷àåì ñïèñîê ôîðì
+    // Ð¿Ð¾Ð»ÑƒÑ‡Ð°ÐµÐ¼ ÑÐ¿Ð¸ÑÐ¾Ðº Ñ„Ð¾Ñ€Ð¼
     $arWebForm = [];
     $rsForms = CForm::GetList($by = "s_sort", $order = "asc", [], $filtered);
     while ($arForm = $rsForms->Fetch())
@@ -120,11 +120,11 @@ if (Loader::includeModule('form'))
 
 
 /**
- * Ïîäêëþ÷àåì ìîäóëü "Èíôîáëîêè"
+ * ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡Ð°ÐµÐ¼ Ð¼Ð¾Ð´ÑƒÐ»ÑŒ "Ð˜Ð½Ñ„Ð¾Ð±Ð»Ð¾ÐºÐ¸"
  */
 if (Loader::includeModule('iblock'))
 {
-    // ïîëó÷àåì ñïèñîê ôîðì
+    // Ð¿Ð¾Ð»ÑƒÑ‡Ð°ÐµÐ¼ ÑÐ¿Ð¸ÑÐ¾Ðº Ñ„Ð¾Ñ€Ð¼
     $arBlocks = [];
     $rsBlocks = CIBlock::GetList();
     while ($arBlock = $rsBlocks->Fetch())
@@ -152,22 +152,22 @@ if (Loader::includeModule('iblock'))
 }
 
 
-// ñîõðàíåíèå íàñòðîåê
+// ÑÐ¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ðµ Ð½Ð°ÑÑ‚Ñ€Ð¾ÐµÐº
 if ($request->isPost() && $request['Update'] && check_bitrix_sessid())
 {
     foreach ($aTabs as $aTab)
     {
         foreach ($aTab['OPTIONS'] as $arOption)
         {
-            if (!is_array($arOption)) continue; // ñòðîêà ñ ïîäñâåòêîé, èñïîëüçóåòñÿ äëÿ ðàçäåëåíèÿ íàñòðîåê â îäíîé âêëàäêå
-            if ($arOption['note']) continue; // óâåäîìëåíèå ñ ïîäñâåòêîé
+            if (!is_array($arOption)) continue; // ÑÑ‚Ñ€Ð¾ÐºÐ° Ñ Ð¿Ð¾Ð´ÑÐ²ÐµÑ‚ÐºÐ¾Ð¹, Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÑ‚ÑÑ Ð´Ð»Ñ Ñ€Ð°Ð·Ð´ÐµÐ»ÐµÐ½Ð¸Ñ Ð½Ð°ÑÑ‚Ñ€Ð¾ÐµÐº Ð² Ð¾Ð´Ð½Ð¾Ð¹ Ð²ÐºÐ»Ð°Ð´ÐºÐµ
+            if ($arOption['note']) continue; // ÑƒÐ²ÐµÐ´Ð¾Ð¼Ð»ÐµÐ½Ð¸Ðµ Ñ Ð¿Ð¾Ð´ÑÐ²ÐµÑ‚ÐºÐ¾Ð¹
 
             __AdmSettingsSaveOption($module_id, $arOption);
         }
     }
 }
 
-// âûâîä ôîðìû
+// Ð²Ñ‹Ð²Ð¾Ð´ Ñ„Ð¾Ñ€Ð¼Ñ‹
 $tabControl = new CAdminTabControl('tabControl', $aTabs);
 ?>
 

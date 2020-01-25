@@ -4,16 +4,16 @@ use Bitrix\Main\Page\Asset;
 use Bitrix\Main\Config\Option;
 use Bitrix\Main\EventManager;
 use Bitrix\Main\Loader;
+use Bitrix\Main\Localization\Loc;
 
 require_once __DIR__ .'/../helper.php';
 
+Loc::loadMessages(__FILE__);
+
 class GoogleCaptcha
 {
-    // стандартное сообщение об ошибке
-    public const ERROR_MESSAGE = 'Ваши действия нам кажутся подозрительными. Попробуйте перезагрузить страницу и повторно заполнить форму.';
-
     /**
-     * Подключаем JS скрипты для reCaptcha v3
+     * РџРѕРґРєР»СЋС‡Р°РµРј JS СЃРєСЂРёРїС‚С‹ РґР»СЏ reCaptcha v3
      */
     public function initJS()
     {
@@ -22,7 +22,7 @@ class GoogleCaptcha
         $hideBadge = Option::get(bx_module_id(), 'hide_badge', 'Y');
 
         $Asset->addString('<script src="https://www.google.com/recaptcha/api.js?render='. $siteKey .'"></script>');
-        $Asset->addString('<script>window.recaptcha = { siteKey: "'. $siteKey .'", tokenLifeTime: 100 };</script>'); // время жизни токена в секундах (2 минуты максимальное время жизни токена)
+        $Asset->addString('<script>window.recaptcha = { siteKey: "'. $siteKey .'", tokenLifeTime: 100 };</script>'); // РІСЂРµРјСЏ Р¶РёР·РЅРё С‚РѕРєРµРЅР° РІ СЃРµРєСѓРЅРґР°С… (2 РјРёРЅСѓС‚С‹ РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ РІСЂРµРјСЏ Р¶РёР·РЅРё С‚РѕРєРµРЅР°)
         $Asset->addString('<script src="/bitrix/js/b01110011.recaptcha/script.js"></script>');
         
         if ($hideBadge == 'Y')
@@ -30,7 +30,7 @@ class GoogleCaptcha
     }
 
     /**
-     * Подключаем проверку на спам
+     * РџРѕРґРєР»СЋС‡Р°РµРј РїСЂРѕРІРµСЂРєСѓ РЅР° СЃРїР°Рј
      */
     public function initCheckSpam()
     {
@@ -42,14 +42,14 @@ class GoogleCaptcha
     }
 
     /**
-     * Проверка форм из модуля веб форм
+     * РџСЂРѕРІРµСЂРєР° С„РѕСЂРј РёР· РјРѕРґСѓР»СЏ РІРµР± С„РѕСЂРј
      */
     public function checkWebForm($WEB_FORM_ID, &$arFields, &$arValues)
     {
         $webformIDs = Option::get(bx_module_id(), 'webform_ids');
         if (empty($webformIDs)) return true;
 
-        // если не из списка проверяемых форм пришли данные, то не проверяем капчу
+        // РµСЃР»Рё РЅРµ РёР· СЃРїРёСЃРєР° РїСЂРѕРІРµСЂСЏРµРјС‹С… С„РѕСЂРј РїСЂРёС€Р»Рё РґР°РЅРЅС‹Рµ, С‚Рѕ РЅРµ РїСЂРѕРІРµСЂСЏРµРј РєР°РїС‡Сѓ
         $webformIDs = explode(',', $webformIDs);
         if (!in_array($WEB_FORM_ID, $webformIDs, true)) return true;
         
@@ -57,7 +57,7 @@ class GoogleCaptcha
     }
 
     /**
-     * Проверка при регистрации пользователя
+     * РџСЂРѕРІРµСЂРєР° РїСЂРё СЂРµРіРёСЃС‚СЂР°С†РёРё РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
      */
     public function checkRegistration(&$arArgs)
     {
@@ -68,14 +68,14 @@ class GoogleCaptcha
     }
 
     /**
-     * Проверка при добавлении в инфоблок
+     * РџСЂРѕРІРµСЂРєР° РїСЂРё РґРѕР±Р°РІР»РµРЅРёРё РІ РёРЅС„РѕР±Р»РѕРє
      */
     public function checkIBlock(&$arParams)
     {
         $iblockIDs = Option::get(bx_module_id(), 'iblock_ids');
         if (empty($iblockIDs)) return true;
 
-        // если не из списка проверяемых инфоблоков пришли данные, то не проверяем капчу
+        // РµСЃР»Рё РЅРµ РёР· СЃРїРёСЃРєР° РїСЂРѕРІРµСЂСЏРµРјС‹С… РёРЅС„РѕР±Р»РѕРєРѕРІ РїСЂРёС€Р»Рё РґР°РЅРЅС‹Рµ, С‚Рѕ РЅРµ РїСЂРѕРІРµСЂСЏРµРј РєР°РїС‡Сѓ
         $iblockIDs = explode(',', $iblockIDs);
         if (!in_array((string) $arParams['IBLOCK_ID'], $iblockIDs, true)) return true;
         
@@ -83,13 +83,13 @@ class GoogleCaptcha
     }
 
     /**
-     * Основной метод проверки капчи
+     * РћСЃРЅРѕРІРЅРѕР№ РјРµС‚РѕРґ РїСЂРѕРІРµСЂРєРё РєР°РїС‡Рё
      */
     public function checkSpam()
     {
         global $APPLICATION;
 
-        // если мы добавляем данные из админки, то не проверяем
+        // РµСЃР»Рё РјС‹ РґРѕР±Р°РІР»СЏРµРј РґР°РЅРЅС‹Рµ РёР· Р°РґРјРёРЅРєРё, С‚Рѕ РЅРµ РїСЂРѕРІРµСЂСЏРµРј
         if (preg_match('/^\/bitrix\/.*$/i', $APPLICATION->GetCurPage())) return true;
 
         $isError = false;
@@ -113,7 +113,7 @@ class GoogleCaptcha
         if ($isError)
         {
             $errorMessage = Option::get(bx_module_id(), 'error_message');
-            if (empty($errorMessage)) $errorMessage = self::ERROR_MESSAGE;
+            if (empty($errorMessage)) $errorMessage = Loc::getMessage(bx_loc_prefix() .'CAPTCHA_ERROR_MESSAGE');
 
             $APPLICATION->ThrowException($errorMessage);
             return false;

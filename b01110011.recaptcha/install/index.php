@@ -93,7 +93,7 @@ class b01110011_recaptcha extends CModule
     }
 
     /**
-     * Ïðîâåðÿåì âåðñèþ ÿäðà
+     * ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ Ð²ÐµÑ€ÑÐ¸ÑŽ ÑÐ´Ñ€Ð°
      */
     public function isVersionD7()
     {
@@ -101,7 +101,7 @@ class b01110011_recaptcha extends CModule
     }
 
     /**
-     * Ïîëó÷àåì ïóòü äî ïàïêè ìîäóëÿ
+     * ÐŸÐ¾Ð»ÑƒÑ‡Ð°ÐµÐ¼ Ð¿ÑƒÑ‚ÑŒ Ð´Ð¾ Ð¿Ð°Ð¿ÐºÐ¸ Ð¼Ð¾Ð´ÑƒÐ»Ñ
      */
     public function GetPath($withoutDocumentRoot = false)
     {
@@ -116,7 +116,7 @@ class b01110011_recaptcha extends CModule
     }
 
     /**
-     * Óñòàíàâëèâàåì òàáëèöû áàçû äàííûõ
+     * Ð£ÑÑ‚Ð°Ð½Ð°Ð²Ð»Ð¸Ð²Ð°ÐµÐ¼ Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñ‹ Ð±Ð°Ð·Ñ‹ Ð´Ð°Ð½Ð½Ñ‹Ñ…
      */
     public function InstallDB()
     {
@@ -124,65 +124,65 @@ class b01110011_recaptcha extends CModule
     }
 
     /**
-     * Óäàëÿåì óñòàíîâëåííûå òàáëèöû
+     * Ð£Ð´Ð°Ð»ÑÐµÐ¼ ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð½Ñ‹Ðµ Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñ‹
      */
     public function UnInstallDB()
     {
-        Option::delete($this->MODULE_ID); // óäàëÿåì íàñòðîéêè ìîäóëÿ
+        Option::delete($this->MODULE_ID); // ÑƒÐ´Ð°Ð»ÑÐµÐ¼ Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ Ð¼Ð¾Ð´ÑƒÐ»Ñ
     }
 
     /**
-     * Äîáàâëÿåì ñîáûòèÿ
+     * Ð”Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼ ÑÐ¾Ð±Ñ‹Ñ‚Ð¸Ñ
      */
     public function InstallEvents()
     {
         $EventManager = EventManager::getInstance();
 
-        // ïðîâåðêà íà ñïàì
+        // Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ° Ð½Ð° ÑÐ¿Ð°Ð¼
         $EventManager->registerEventHandler('main', 'OnBeforeProlog', $this->MODULE_ID, 'GoogleCaptcha', 'initCheckSpam');
 
-        // èíèöèàëèçàöèÿ js
+        // Ð¸Ð½Ð¸Ñ†Ð¸Ð°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ñ js
         $EventManager->registerEventHandler('main', 'OnProlog', $this->MODULE_ID, 'GoogleCaptcha', 'initJS');
     }
     
     /**
-     * Óáèðàåì äîáàâëåííûå ñîáûòèÿ
+     * Ð£Ð±Ð¸Ñ€Ð°ÐµÐ¼ Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð½Ñ‹Ðµ ÑÐ¾Ð±Ñ‹Ñ‚Ð¸Ñ
      */
     public function UnInstallEvents()
     {
         $EventManager = EventManager::getInstance();
 
-        // ïðîâåðêà íà ñïàì
+        // Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ° Ð½Ð° ÑÐ¿Ð°Ð¼
         $EventManager->unRegisterEventHandler('main', 'OnBeforeProlog', $this->MODULE_ID, 'GoogleCaptcha', 'initCheckSpam');
 
-        // èíèöèàëèçàöèÿ js
+        // Ð¸Ð½Ð¸Ñ†Ð¸Ð°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ñ js
         $EventManager->unRegisterEventHandler('main', 'OnProlog', $this->MODULE_ID, 'GoogleCaptcha', 'initJS');
     }
 
     /**
-     * Êîïèðóåì íóæíûå ôàéëû â ñèñòåìó
+     * ÐšÐ¾Ð¿Ð¸Ñ€ÑƒÐµÐ¼ Ð½ÑƒÐ¶Ð½Ñ‹Ðµ Ñ„Ð°Ð¹Ð»Ñ‹ Ð² ÑÐ¸ÑÑ‚ÐµÐ¼Ñƒ
      */
     public function InstallFiles()
     {
-        // êîïèðóåì êîìïîíåíòû
+        // ÐºÐ¾Ð¿Ð¸Ñ€ÑƒÐµÐ¼ ÐºÐ¾Ð¼Ð¿Ð¾Ð½ÐµÐ½Ñ‚Ñ‹
         if (Directory::isDirectoryExists($path = $this->GetPath() .'/install/components'))
         {
             CopyDirFiles($path, Application::getDocumentRoot() .'/bitrix/components', true, true);
         }
 
-        // êîïèðóåì ñêðèïòû
+        // ÐºÐ¾Ð¿Ð¸Ñ€ÑƒÐµÐ¼ ÑÐºÑ€Ð¸Ð¿Ñ‚Ñ‹
         if (Directory::isDirectoryExists($path = $this->GetPath() .'/install/assets/js'))
         {
             CopyDirFiles($path, Application::getDocumentRoot() .'/bitrix/js/'. $this->MODULE_ID, true, true);
         }
 
-        // êîïèðóåì ñòèëè
+        // ÐºÐ¾Ð¿Ð¸Ñ€ÑƒÐµÐ¼ ÑÑ‚Ð¸Ð»Ð¸
         if (Directory::isDirectoryExists($path = $this->GetPath() .'/install/assets/css'))
         {
             CopyDirFiles($path, Application::getDocumentRoot() .'/bitrix/css/'. $this->MODULE_ID, true, true);
         }
 
-        // êîïèðóåì àäìèíñêèå ôàéëû
+        // ÐºÐ¾Ð¿Ð¸Ñ€ÑƒÐµÐ¼ Ð°Ð´Ð¼Ð¸Ð½ÑÐºÐ¸Ðµ Ñ„Ð°Ð¹Ð»Ñ‹
         if (Directory::isDirectoryExists($path = $this->GetPath() .'/install/admin'))
         {
             if ($dir = opendir($path))
@@ -195,7 +195,7 @@ class b01110011_recaptcha extends CModule
 
                     copy($path .'/'. $item, $dest = Application::getDocumentRoot() .'/bitrix/admin/'. $this->FILE_PREFIX . $item);
 
-                    // äëÿ çàìåíû àéäè ìîäóëÿ â ôàéëàõ install/admin
+                    // Ð´Ð»Ñ Ð·Ð°Ð¼ÐµÐ½Ñ‹ Ð°Ð¹Ð´Ð¸ Ð¼Ð¾Ð´ÑƒÐ»Ñ Ð² Ñ„Ð°Ð¹Ð»Ð°Ñ… install/admin
                     if (file_exists($dest))
                     {
                         $content = file_get_contents($dest);
@@ -210,11 +210,11 @@ class b01110011_recaptcha extends CModule
     }
 
     /**
-     * Óäàëÿåì ôàéëû
+     * Ð£Ð´Ð°Ð»ÑÐµÐ¼ Ñ„Ð°Ð¹Ð»Ñ‹
      */
     public function UnInstallFiles()
     {
-        // óäàëÿåì êîìïîíåíòû
+        // ÑƒÐ´Ð°Ð»ÑÐµÐ¼ ÐºÐ¾Ð¼Ð¿Ð¾Ð½ÐµÐ½Ñ‚Ñ‹
         if (Directory::isDirectoryExists($path = $this->GetPath() .'/install/components'))
         {
             if ($dir = opendir($path))
@@ -233,19 +233,19 @@ class b01110011_recaptcha extends CModule
             }
         }
 
-        // óäàëÿåì ñêðèïòû
+        // ÑƒÐ´Ð°Ð»ÑÐµÐ¼ ÑÐºÑ€Ð¸Ð¿Ñ‚Ñ‹
         if (Directory::isDirectoryExists($path = $this->GetPath() .'/install/assets/js'))
         {
             Directory::deleteDirectory(Application::getDocumentRoot() .'/bitrix/js/'. $this->MODULE_ID);
         }
 
-        // óäàëÿåì ñòèëè
+        // ÑƒÐ´Ð°Ð»ÑÐµÐ¼ ÑÑ‚Ð¸Ð»Ð¸
         if (Directory::isDirectoryExists($path = $this->GetPath() .'/install/assets/css'))
         {
             Directory::deleteDirectory(Application::getDocumentRoot() .'/bitrix/css/'. $this->MODULE_ID);
         }
 
-        // óäàëÿåì àäìèíñêèå ôàéëû
+        // ÑƒÐ´Ð°Ð»ÑÐµÐ¼ Ð°Ð´Ð¼Ð¸Ð½ÑÐºÐ¸Ðµ Ñ„Ð°Ð¹Ð»Ñ‹
         if (Directory::isDirectoryExists($path = $this->GetPath() .'/install/admin'))
         {
             if ($dir = opendir($path))

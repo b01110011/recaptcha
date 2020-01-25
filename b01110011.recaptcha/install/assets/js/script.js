@@ -23,7 +23,7 @@ window.recaptcha.reloadToken = function()
     });
 };
 
-window.recaptcha.getToken = function() // пользуемся этим методом когда нужно получить токен
+window.recaptcha.getToken = function() // РїРѕР»СЊР·СѓРµРјСЃСЏ СЌС‚РёРј РјРµС‚РѕРґРѕРј РєРѕРіРґР° РЅСѓР¶РЅРѕ РїРѕР»СѓС‡РёС‚СЊ С‚РѕРєРµРЅ
 {
     var oldToken = this.token;
     this.reloadToken();
