@@ -23,6 +23,8 @@ class BitrixCaptcha
         $siteKey = Option::get(M::id(), 'site_key');
         $hideBadge = Option::get(M::id(), 'hide_badge', 'Y');
 
+        if (empty($siteKey)) return true;
+
         $Asset->addString('<script src="https://www.google.com/recaptcha/api.js?render='. $siteKey .'"></script>');
         $Asset->addString('<script>window.recaptcha = { siteKey: "'. $siteKey .'", tokenLifeTime: 100 };</script>'); // время жизни токена в секундах (2 минуты максимальное время жизни токена)
         $Asset->addString('<script src="/bitrix/js/b01110011.recaptcha/script.js"></script>');
@@ -36,6 +38,9 @@ class BitrixCaptcha
      */
     public function initCheckSpam()
     {
+        $secretKey = Option::get(M::id(), 'secret_key');
+        if (empty($secretKey)) return true;
+
         $EventManager = EventManager::getInstance();
 
         $EventManager->addEventHandler('form', 'onBeforeResultAdd', ['B01110011ReCaptcha\BitrixCaptcha', 'checkWebForm']);
