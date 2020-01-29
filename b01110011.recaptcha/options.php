@@ -98,23 +98,20 @@ if (Loader::includeModule('form'))
         $arWebForm[$arForm['ID']] = '[' . $arForm['ID'] . '] ' . $arForm['NAME'];
     }
 
-    if (!empty($arWebForm))
-    {
-        $aTabs[] =
+    $aTabs[] =
+    [
+        'DIV' => 'webform',
+        'TAB' => Loc::getMessage(M::locPrefix() .'TAB_WEBFORM'),
+        'OPTIONS' =>
         [
-            'DIV' => 'webform',
-            'TAB' => Loc::getMessage(M::locPrefix() .'TAB_WEBFORM'),
-            'OPTIONS' =>
             [
-                [
-                    'webform_ids',
-                    Loc::getMessage(M::locPrefix() .'FIELD_WEBFORM_IDS'),
-                    '',
-                    ['multiselectbox', $arWebForm]
-                ]
+                'webform_ids',
+                Loc::getMessage(M::locPrefix() .'FIELD_WEBFORM_IDS'),
+                '',
+                ['multiselectbox', $arWebForm]
             ]
-        ];
-    }
+        ]
+    ];
 }
 
 
@@ -131,23 +128,20 @@ if (Loader::includeModule('iblock'))
         $arBlocks[$arBlock['ID']] = '[' . $arBlock['ID'] . '] ' . $arBlock['NAME'];
     }
 
-    if (!empty($arBlocks))
-    {
-        $aTabs[] =
+    $aTabs[] =
+    [
+        'DIV' => 'iblock',
+        'TAB' => Loc::getMessage(M::locPrefix() .'TAB_IBLOCK'),
+        'OPTIONS' =>
         [
-            'DIV' => 'iblock',
-            'TAB' => Loc::getMessage(M::locPrefix() .'TAB_IBLOCK'),
-            'OPTIONS' =>
             [
-                [
-                    'iblock_ids',
-                    Loc::getMessage(M::locPrefix() .'FIELD_IBLOCK_IDS'),
-                    '',
-                    ['multiselectbox', $arBlocks]
-                ]
+                'iblock_ids',
+                Loc::getMessage(M::locPrefix() .'FIELD_IBLOCK_IDS'),
+                '',
+                ['multiselectbox', $arBlocks]
             ]
-        ];
-    }
+        ]
+    ];
 }
 
 
