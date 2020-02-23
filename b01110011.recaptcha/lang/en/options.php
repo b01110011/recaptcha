@@ -2,10 +2,10 @@
 
 use B01110011ReCaptcha\Module as M;
 
-$MESS[M::locPrefix() .'TAB_SETTINGS'] = 'Settings';
-$MESS[M::locPrefix() .'TAB_WEBFORM'] = 'Web Form';
-$MESS[M::locPrefix() .'TAB_REGISTRATION'] = 'Registration';
-$MESS[M::locPrefix() .'TAB_IBLOCK'] = 'Info Blocks';
+$MESS[M::locPrefix() .'HEADER_BASE_SETTINGS'] = 'Base settings';
+$MESS[M::locPrefix() .'HEADER_REGISTRATION'] = 'Registration';
+$MESS[M::locPrefix() .'HEADER_WEBFORM_IDS'] = 'Web Form';
+$MESS[M::locPrefix() .'HEADER_IBLOCK'] = 'Info Blocks';
 
 $MESS[M::locPrefix() .'NOTE_REGISTRATION'] = 'Protection against spam on registration works on the main.register module for system.auth.registration does not work.';
 

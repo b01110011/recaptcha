@@ -20,8 +20,8 @@ class BitrixCaptcha
     public function initJS()
     {
         $Asset = Asset::getInstance();
-        $siteKey = Option::get(M::id(), 'site_key');
-        $hideBadge = Option::get(M::id(), 'hide_badge', 'Y');
+        $siteKey = Option::get(M::id(), 'site_key_'. SITE_ID);
+        $hideBadge = Option::get(M::id(), 'hide_badge_'. SITE_ID, 'Y');
 
         if (empty($siteKey)) return true;
 
@@ -38,7 +38,7 @@ class BitrixCaptcha
      */
     public function initCheckSpam()
     {
-        $secretKey = Option::get(M::id(), 'secret_key');
+        $secretKey = Option::get(M::id(), 'secret_key_'. SITE_ID);
         if (empty($secretKey)) return true;
 
         $EventManager = EventManager::getInstance();
@@ -53,7 +53,7 @@ class BitrixCaptcha
      */
     public function checkWebForm($WEB_FORM_ID, &$arFields, &$arValues)
     {
-        $webformIDs = Option::get(M::id(), 'webform_ids');
+        $webformIDs = Option::get(M::id(), 'webform_ids_'. SITE_ID);
         if (empty($webformIDs)) return true;
 
         // если не из списка проверяемых форм пришли данные, то не проверяем капчу
@@ -68,7 +68,7 @@ class BitrixCaptcha
      */
     public function checkRegistration(&$arArgs)
     {
-        $registrationEnable = Option::get(M::id(), 'registrationEnable', 'N');
+        $registrationEnable = Option::get(M::id(), 'registration_enable_'. SITE_ID, 'N');
         if ($registrationEnable == 'N') return true;
 
         return self::checkSpam();
@@ -79,7 +79,7 @@ class BitrixCaptcha
      */
     public function checkIBlock(&$arParams)
     {
-        $iblockIDs = Option::get(M::id(), 'iblock_ids');
+        $iblockIDs = Option::get(M::id(), 'iblock_ids_'. SITE_ID);
         if (empty($iblockIDs)) return true;
 
         // если не из списка проверяемых инфоблоков пришли данные, то не проверяем капчу
@@ -104,8 +104,8 @@ class BitrixCaptcha
 
         if (isset($recaptcha_token) && !empty($recaptcha_token))
         {
-            $secretKey = Option::get(M::id(), 'secret_key');
-            $permissibleScore = (float) Option::get(M::id(), 'permissible_score', 0.5);
+            $secretKey = Option::get(M::id(), 'secret_key_'. SITE_ID);
+            $permissibleScore = (float) Option::get(M::id(), 'permissible_score_'. SITE_ID, 0.5);
 
             $recaptcha = new ReCaptcha($secretKey, $permissibleScore);
             $response = $recaptcha->verify($recaptcha_token);
@@ -119,7 +119,7 @@ class BitrixCaptcha
 
         if ($isError)
         {
-            $errorMessage = Option::get(M::id(), 'error_message');
+            $errorMessage = Option::get(M::id(), 'error_message_'. SITE_ID);
             if (empty($errorMessage)) $errorMessage = Loc::getMessage(M::locPrefix() .'CAPTCHA_ERROR_MESSAGE');
 
             $APPLICATION->ThrowException($errorMessage);

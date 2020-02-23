@@ -2,10 +2,10 @@
 
 use B01110011ReCaptcha\Module as M;
 
-$MESS[M::locPrefix() .'TAB_SETTINGS'] = 'Настройки';
-$MESS[M::locPrefix() .'TAB_WEBFORM'] = 'Веб Формы';
-$MESS[M::locPrefix() .'TAB_REGISTRATION'] = 'Регистрация';
-$MESS[M::locPrefix() .'TAB_IBLOCK'] = 'Инфоблоки';
+$MESS[M::locPrefix() .'HEADER_BASE_SETTINGS'] = 'Основные настройки';
+$MESS[M::locPrefix() .'HEADER_REGISTRATION'] = 'Регистрация';
+$MESS[M::locPrefix() .'HEADER_WEBFORM_IDS'] = 'Веб Формы';
+$MESS[M::locPrefix() .'HEADER_IBLOCK'] = 'Инфоблоки';
 
 $MESS[M::locPrefix() .'NOTE_REGISTRATION'] = 'Защита от спама при регистрации работает только на модуль main.register для system.auth.registration не работает.';
 
