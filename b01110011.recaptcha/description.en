@@ -1,2 +1,2 @@
-Multi-site support added.<br>
-Before updating you need to remember the captcha settings as they will be reset and you will have to configure them again.
+Changed request to google captcha verification server from file_get_contents (stream_context_create) to cURL.<br>
+The cURL extension must be included in PHP.

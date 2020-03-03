@@ -65,27 +65,23 @@ class ReCaptcha
         $params = ['secret' => $this->secret, 'response' => $token];
         $params = http_build_query($params, '', '&');
 
-        /**
-         * PHP 5.6.0 changed the way you specify the peer name for SSL context options.
-         * Using "CN_name" will still work, but it will raise deprecated errors.
-         */
-        $peer_key = version_compare(PHP_VERSION, '5.6.0', '<') ? 'CN_name' : 'peer_name';
-        $options =
+        $curl = curl_init(self::SITE_VERIFY_URL);
+
+        curl_setopt_array($curl,
         [
-            'http' =>
-            [
-                'header' => "Content-type: application/x-www-form-urlencoded\r\n",
-                'method' => 'POST',
-                'content' => $params,
-                // Force the peer to validate (not needed in 5.6.0+, but still works)
-                'verify_peer' => true,
-                // Force the peer validation to use www.google.com
-                $peer_key => 'www.google.com',
-            ]
-        ];
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $params,
+            CURLOPT_HTTPHEADER => ['Content-Type: application/x-www-form-urlencoded'],
+            CURLINFO_HEADER_OUT => false,
+            CURLOPT_HEADER => false,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_SSL_VERIFYPEER => true
+        ]);
 
-        $context = stream_context_create($options);
+        $result = curl_exec($curl);
 
-        return json_decode(file_get_contents(self::SITE_VERIFY_URL, false, $context), true);
+        curl_close($curl);
+
+        return json_decode($result, true);
     }
 }
