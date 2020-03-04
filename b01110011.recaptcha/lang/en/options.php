@@ -7,8 +7,6 @@ $MESS[M::locPrefix() .'HEADER_REGISTRATION'] = 'Registration';
 $MESS[M::locPrefix() .'HEADER_WEBFORM_IDS'] = 'Web Form';
 $MESS[M::locPrefix() .'HEADER_IBLOCK'] = 'Info Blocks';
 
-$MESS[M::locPrefix() .'NOTE_REGISTRATION'] = 'Protection against spam on registration works on the main.register module for system.auth.registration does not work.';
-
 $MESS[M::locPrefix() .'FIELD_SITE_KEY'] = 'Site key';
 $MESS[M::locPrefix() .'FIELD_SECRET_KEY'] = 'Secret key';
 $MESS[M::locPrefix() .'FIELD_PERMISSIBLE_SCORE'] = 'Permissible score';

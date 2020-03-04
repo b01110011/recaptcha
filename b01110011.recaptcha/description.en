@@ -1,2 +1,1 @@
-Changed request to google captcha verification server from file_get_contents (stream_context_create) to cURL.<br>
-The cURL extension must be included in PHP.
+Added support for the system.auth.registration component.

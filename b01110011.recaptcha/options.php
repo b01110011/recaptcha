@@ -74,8 +74,7 @@ while ($arSite = $rsSites->Fetch())
             Loc::getMessage(M::locPrefix() .'FIELD_REGISTRATION'),
             'N',
             ['checkbox']
-        ],
-        ['note' => Loc::getMessage(M::locPrefix() .'NOTE_REGISTRATION')]
+        ]
     ]);
 
     // Веб Формы

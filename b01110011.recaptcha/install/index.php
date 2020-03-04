@@ -135,7 +135,7 @@ class b01110011_recaptcha extends CModule
         $EventManager = EventManager::getInstance();
 
         // проверка на спам
-        $EventManager->registerEventHandler('main', 'OnBeforeProlog', $this->MODULE_ID, 'B01110011ReCaptcha\BitrixCaptcha', 'initCheckSpam');
+        $EventManager->registerEventHandler('main', 'OnPageStart', $this->MODULE_ID, 'B01110011ReCaptcha\BitrixCaptcha', 'initCheckSpam');
 
         // инициализация js
         $EventManager->registerEventHandler('main', 'OnProlog', $this->MODULE_ID, 'B01110011ReCaptcha\BitrixCaptcha', 'initJS');
@@ -149,7 +149,7 @@ class b01110011_recaptcha extends CModule
         $EventManager = EventManager::getInstance();
 
         // проверка на спам
-        $EventManager->unRegisterEventHandler('main', 'OnBeforeProlog', $this->MODULE_ID, 'B01110011ReCaptcha\BitrixCaptcha', 'initCheckSpam');
+        $EventManager->unRegisterEventHandler('main', 'OnPageStart', $this->MODULE_ID, 'B01110011ReCaptcha\BitrixCaptcha', 'initCheckSpam');
 
         // инициализация js
         $EventManager->unRegisterEventHandler('main', 'OnProlog', $this->MODULE_ID, 'B01110011ReCaptcha\BitrixCaptcha', 'initJS');

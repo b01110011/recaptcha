@@ -7,8 +7,6 @@ $MESS[M::locPrefix() .'HEADER_REGISTRATION'] = 'Регистрация';
 $MESS[M::locPrefix() .'HEADER_WEBFORM_IDS'] = 'Веб Формы';
 $MESS[M::locPrefix() .'HEADER_IBLOCK'] = 'Инфоблоки';
 
-$MESS[M::locPrefix() .'NOTE_REGISTRATION'] = 'Защита от спама при регистрации работает только на модуль main.register для system.auth.registration не работает.';
-
 $MESS[M::locPrefix() .'FIELD_SITE_KEY'] = 'Ключ сайта';
 $MESS[M::locPrefix() .'FIELD_SECRET_KEY'] = 'Секретный ключ';
 $MESS[M::locPrefix() .'FIELD_PERMISSIBLE_SCORE'] = 'Допустимая оценка';
