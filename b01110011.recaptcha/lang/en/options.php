@@ -6,6 +6,9 @@ $MESS[M::locPrefix() .'HEADER_BASE_SETTINGS'] = 'Base settings';
 $MESS[M::locPrefix() .'HEADER_REGISTRATION'] = 'Registration';
 $MESS[M::locPrefix() .'HEADER_WEBFORM_IDS'] = 'Web Form';
 $MESS[M::locPrefix() .'HEADER_IBLOCK'] = 'Info Blocks';
+$MESS[M::locPrefix() .'HEADER_MAIN_FEEDBACK'] = 'Feedback form (main.feedback)';
+
+$MESS[M::locPrefix() .'NOTE_MAIN_FEEDBACK'] = 'A captcha error message is not displayed in this component, because this is how the component works. If you customize the component, a captcha error will appear. Instructions on the "Settings" page of the module.';
 
 $MESS[M::locPrefix() .'FIELD_SITE_KEY'] = 'Site key';
 $MESS[M::locPrefix() .'FIELD_SECRET_KEY'] = 'Secret key';
@@ -15,3 +18,4 @@ $MESS[M::locPrefix() .'FIELD_WEBFORM_IDS'] = 'Web Form ID';
 $MESS[M::locPrefix() .'FIELD_REGISTRATION'] = 'Enable captcha';
 $MESS[M::locPrefix() .'FIELD_ERROR_MESSAGE'] = 'Captcha error message';
 $MESS[M::locPrefix() .'FIELD_IBLOCK_IDS'] = 'IBlock ID';
+$MESS[M::locPrefix() .'FIELD_MAIN_FEEDBACK_IDS'] = 'Mail template ID';

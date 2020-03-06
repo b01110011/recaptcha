@@ -123,6 +123,28 @@ while ($arSite = $rsSites->Fetch())
         ]);
     }
 
+    // Форма обратной связи main.feedback
+    // получаем список почтовых шаблонов
+    $arEvents = [];
+    $rsEvent = CEventMessage::GetList($by2 = 'ID', $order2 = 'DESC', ['LID' => $arSite['LID'], "TYPE_ID" => "FEEDBACK_FORM", "ACTIVE" => "Y"]);
+    while ($arEvent = $rsEvent->GetNext())
+    {
+        $arEvents[$arEvent['ID']] = '[' . $arEvent['ID'] . '] ' . $arEvent['SUBJECT'];
+    }
+
+    $arOptions = array_merge($arOptions,
+    [
+        Loc::getMessage(M::locPrefix() .'HEADER_MAIN_FEEDBACK'),
+        [
+            'main_feedback_ids_'. $arSite['LID'],
+            Loc::getMessage(M::locPrefix() .'FIELD_MAIN_FEEDBACK_IDS'),
+            '',
+            ['multiselectbox', $arEvents]
+        ],
+        ['note' => Loc::getMessage(M::locPrefix() .'NOTE_MAIN_FEEDBACK')]
+    ]);
+
+    // список сайтов
     $aTabs[] =
     [
         'DIV' => 'settings_'. $arSite['LID'],

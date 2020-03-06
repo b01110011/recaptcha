@@ -45,6 +45,7 @@ class BitrixCaptcha
 
         $EventManager->addEventHandler('form', 'onBeforeResultAdd', ['B01110011ReCaptcha\BitrixCaptcha', 'checkWebForm']);
         $EventManager->addEventHandler('main', 'OnBeforeUserRegister', ['B01110011ReCaptcha\BitrixCaptcha', 'checkRegistration']);
+        $EventManager->addEventHandler('main', 'OnBeforeEventAdd', ['B01110011ReCaptcha\BitrixCaptcha', 'checkFeedback']);
         $EventManager->addEventHandler('iblock', 'OnBeforeIBlockElementAdd', ['B01110011ReCaptcha\BitrixCaptcha', 'checkIBlock']);
     }
 
@@ -71,6 +72,21 @@ class BitrixCaptcha
         $registrationEnable = Option::get(M::id(), 'registration_enable_'. SITE_ID, 'N');
         if ($registrationEnable == 'N') return true;
 
+        return self::checkSpam();
+    }
+
+    /**
+     * Проверка при отправки формы обратной связи main.feedback
+     */
+    public function checkFeedback(&$event, &$lid, &$arFields, &$messageId, &$files, &$languageId)
+    {
+        $feedbackIDs = Option::get(M::id(), 'main_feedback_ids_'. SITE_ID);
+        if (empty($feedbackIDs)) return true;
+
+        // если не из списка проверяемых форм пришли данные, то не проверяем капчу
+        $feedbackIDs = explode(',', $feedbackIDs);
+        if (!in_array((string) $messageId, $feedbackIDs, true)) return true;
+        
         return self::checkSpam();
     }
 

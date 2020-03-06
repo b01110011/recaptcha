@@ -30,13 +30,40 @@ https://www.google.com/recaptcha/admin/create
 **Если нужно защитить от спама:**
 
 Регистрацию  
-> Находим блок Регистрации и жмём на "Включить капчу"  
+> Находим блок "Регистрации" и жмём на "Включить капчу"  
   
 Добавление данных в модуль "Веб формы"  
-> Находим блок Веб формы и выбираем нужные формы для защиты.    
+> Находим блок "Веб формы" и выбираем нужные формы для защиты.    
   
 Добавление данных в модуль "Инфоблоки"  
-> Находим блок Инфоблоки и выбираем нужные инфоблоки для защиты.  
+> Находим блок "Инфоблоки" и выбираем нужные инфоблоки для защиты.  
+  
+Форму обратной связи main.feedback  
+> Находим блок "Форма обратной связи" и выбираем нужные почтовые шаблоны для защиты.  
+
+**Как вывести сообщение об ошибке капчи в "Форме обратной связи main.feedback"?**
+Нужно скопировать компонент (папку main.feedback) из *bitrix\components\bitrix\main.feedback* в *local\components\bitrix\main.feedback* .  
+Далее открыть файл component.php на редактирование.  
+Найти строки:  
+```php
+$_SESSION["MF_NAME"] = htmlspecialcharsbx($_POST["user_name"]);
+$_SESSION["MF_EMAIL"] = htmlspecialcharsbx($_POST["user_email"]);
+LocalRedirect($APPLICATION->GetCurPageParam("success=".$arResult["PARAMS_HASH"], Array("success")));
+```
+Заменить их на:  
+```php
+if($ex = $APPLICATION->GetException())
+{
+    $arResult["ERROR_MESSAGE"][] = $ex->GetString();
+}
+else
+{
+    $_SESSION["MF_NAME"] = htmlspecialcharsbx($_POST["user_name"]);
+    $_SESSION["MF_EMAIL"] = htmlspecialcharsbx($_POST["user_email"]);
+    LocalRedirect($APPLICATION->GetCurPageParam("success=".$arResult["PARAMS_HASH"], Array("success")));
+}
+```
+И всё! Вывод ошибок капчи будет работать.  
 
 **Как получить токен, если я отправляю данные через AJAX?**
 ```js

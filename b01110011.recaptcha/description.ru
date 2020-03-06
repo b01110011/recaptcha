@@ -1,1 +1,1 @@
-Добавлена поддержка компонента system.auth.registration.
+Добавлена поддержка компонента main.feedback.
