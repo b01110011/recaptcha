@@ -35,10 +35,10 @@ class ReCaptcha
             'error_codes' => ['Empty token.']
         ];
 
-        if (empty($token)) $errorObject;
+        if (empty($token)) return $errorObject;
 
         $data = $this->submit($token);
-        if (!$data) $errorObject;
+        if (!$data) return $errorObject;
 
         $success = isset($data['success']) ? $data['success'] : false;
         $score = isset($data['score']) ? $data['score'] : false;

@@ -1,1 +1,3 @@
-Added support for the main.feedback component.
+Small fixes:<br>
+- Admin definition path changed from '/bitrix/' to '/bitrix/admin/' (no captcha is used if added from the admin panel).<br>
+- ReCaptcha::verify on request error did not return an object.

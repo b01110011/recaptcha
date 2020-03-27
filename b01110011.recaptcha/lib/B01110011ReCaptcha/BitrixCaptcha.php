@@ -113,7 +113,7 @@ class BitrixCaptcha
         global $APPLICATION;
 
         // если мы добавляем данные из админки, то не проверяем
-        if (preg_match('/^\/bitrix\/.*$/i', $APPLICATION->GetCurPage())) return true;
+        if (preg_match('/^\/bitrix\/admin\/.*$/i', $APPLICATION->GetCurPage())) return true;
 
         $isError = false;
         $recaptcha_token = $_REQUEST['recaptcha_token'];
