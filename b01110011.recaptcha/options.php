@@ -65,6 +65,7 @@ while ($arSite = $rsSites->Fetch())
         ]
     ]);
 
+
     // Регистрация пользователей
     $arOptions = array_merge($arOptions,
     [
@@ -76,6 +77,7 @@ while ($arSite = $rsSites->Fetch())
             ['checkbox']
         ]
     ]);
+
 
     // Веб Формы
     if (Loader::includeModule('form'))
@@ -100,6 +102,7 @@ while ($arSite = $rsSites->Fetch())
         ]);
     }
 
+
     // Инфоблоки
     if (Loader::includeModule('iblock'))
     {
@@ -123,6 +126,7 @@ while ($arSite = $rsSites->Fetch())
         ]);
     }
 
+
     // Форма обратной связи main.feedback
     // получаем список почтовых шаблонов
     $arEvents = [];
@@ -143,6 +147,24 @@ while ($arSite = $rsSites->Fetch())
         ],
         ['note' => Loc::getMessage(M::locPrefix() .'NOTE_MAIN_FEEDBACK')]
     ]);
+
+
+    // Оформление заказа
+    if (Loader::includeModule('sale'))
+    {
+        $arOptions = array_merge($arOptions,
+        [
+            Loc::getMessage(M::locPrefix() .'HEADER_SALE_ORDER'),
+            [
+                'sale_order_enable_'. $arSite['LID'],
+                Loc::getMessage(M::locPrefix() .'FIELD_SALE_ORDER'),
+                'N',
+                ['checkbox']
+            ],
+            ['note' => Loc::getMessage(M::locPrefix() .'NOTE_SALE_ORDER')]
+        ]);
+    }
+
 
     // список сайтов
     $aTabs[] =

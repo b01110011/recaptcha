@@ -3,6 +3,6 @@
 // должны быть " кавычки
 $arModuleVersion =
 [
-    "VERSION" => "1.1.4",
-    "VERSION_DATE" => "2020-03-27 19:54:00"
+    "VERSION" => "1.1.5",
+    "VERSION_DATE" => "2020-03-28 18:24:00"
 ];

@@ -47,6 +47,7 @@ class BitrixCaptcha
         $EventManager->addEventHandler('main', 'OnBeforeUserRegister', ['B01110011ReCaptcha\BitrixCaptcha', 'checkRegistration']);
         $EventManager->addEventHandler('main', 'OnBeforeEventAdd', ['B01110011ReCaptcha\BitrixCaptcha', 'checkFeedback']);
         $EventManager->addEventHandler('iblock', 'OnBeforeIBlockElementAdd', ['B01110011ReCaptcha\BitrixCaptcha', 'checkIBlock']);
+        $EventManager->addEventHandler('sale', 'OnBeforeOrderAdd', ['B01110011ReCaptcha\BitrixCaptcha', 'checkSaleOrder']);
     }
 
     /**
@@ -71,6 +72,17 @@ class BitrixCaptcha
     {
         $registrationEnable = Option::get(M::id(), 'registration_enable_'. SITE_ID, 'N');
         if ($registrationEnable == 'N') return true;
+
+        return self::checkSpam();
+    }
+
+    /**
+     * Проверка при оформлении заказа
+     */
+    public function checkSaleOrder(&$arFields)
+    {
+        $saleOrderEnable = Option::get(M::id(), 'sale_order_enable_'. SITE_ID, 'N');
+        if ($saleOrderEnable == 'N') return true;
 
         return self::checkSpam();
     }
