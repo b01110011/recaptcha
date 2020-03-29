@@ -55,6 +55,8 @@ class BitrixCaptcha
      */
     public function checkWebForm($WEB_FORM_ID, &$arFields, &$arValues)
     {
+        if ($arFields['RECAPTCHA_DISABLE']) return true;
+
         $webformIDs = Option::get(M::id(), 'webform_ids_'. SITE_ID);
         if (empty($webformIDs)) return true;
 
@@ -81,6 +83,8 @@ class BitrixCaptcha
      */
     public function checkSaleOrder(&$arFields)
     {
+        if ($arFields['RECAPTCHA_DISABLE']) return true;
+
         $saleOrderEnable = Option::get(M::id(), 'sale_order_enable_'. SITE_ID, 'N');
         if ($saleOrderEnable == 'N') return true;
 
@@ -92,6 +96,8 @@ class BitrixCaptcha
      */
     public function checkFeedback(&$event, &$lid, &$arFields, &$messageId, &$files, &$languageId)
     {
+        if ($arFields['RECAPTCHA_DISABLE']) return true;
+
         $feedbackIDs = Option::get(M::id(), 'main_feedback_ids_'. SITE_ID);
         if (empty($feedbackIDs)) return true;
 
@@ -107,6 +113,8 @@ class BitrixCaptcha
      */
     public function checkIBlock(&$arParams)
     {
+        if ($arParams['RECAPTCHA_DISABLE']) return true;
+
         $iblockIDs = Option::get(M::id(), 'iblock_ids_'. SITE_ID);
         if (empty($iblockIDs)) return true;
 
