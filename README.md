@@ -136,6 +136,8 @@ BX.ajax({
     }
 });
 ```
+**Примечание:**
+Если включена регистрация при оформлении заказа в компоненте sale.order.ajax то настройка чуть ниже в блоке "Настройка защиты 'Оформления заказа (sale.order.ajax)'"  
 
 **Настройка защиты "Формы обратной связи (main.feedback)":**
 
@@ -208,6 +210,28 @@ data: {
     sessid: BX.bitrix_sessid(),
     SITE_ID: this.siteId,
     signedParamsString: this.signedParamsString
+},
+```
+при включённой регистрации, через этот компонент, на 261 строке тоже добавить токен:  
+в настройках модуля, можно не жать галочку "включить капчу" для компонента sale.order.ajax если нужно защитить только регистрацию.   
+```js
+getData: function(action, actionData)
+{
+    var data = {
+        recaptcha_token: window.recaptcha.getToken(),
+        order: this.getAllFormData(),
+        sessid: BX.bitrix_sessid(),
+        via_ajax: 'Y',
+        SITE_ID: this.siteId,
+        signedParamsString: this.signedParamsString
+    };
+
+    data[this.params.ACTION_VARIABLE] = action;
+
+    if (action === 'enterCoupon' || action === 'removeCoupon')
+        data.coupon = actionData;
+
+    return data;
 },
 ```
 
